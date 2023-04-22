@@ -4,6 +4,8 @@ import com.example.FirstSpring.Entity.Project;
 import com.example.FirstSpring.Repository.ProjectRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,5 +50,9 @@ public class ProjectService {
             throw new Exception("deleteProject(): Incorrect ID!");
         }
         projectRepository.delete(projectRepository.getById(id));
+    }
+
+    public Page<Project> findProjectsWithPagination(int offset, int pageSize) {
+        return projectRepository.findAll(PageRequest.of(offset,pageSize));
     }
 }

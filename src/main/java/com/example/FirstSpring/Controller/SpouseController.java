@@ -1,11 +1,10 @@
 package com.example.FirstSpring.Controller;
 
-import com.example.FirstSpring.Entity.Employee;
+import com.example.FirstSpring.Entity.*;
 import com.example.FirstSpring.Entity.Spouse;
-import com.example.FirstSpring.Entity.Spouse;
-import com.example.FirstSpring.Entity.SpouseDTO;
 import com.example.FirstSpring.Service.SpouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +25,12 @@ public class SpouseController {
             idList.add(spouse.getId());
         }
         return idList;
+    }
+
+    @GetMapping("/spouses/page/{offset}/{pageSize}")
+    private APIResponse<Page<Spouse>> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+        Page<Spouse> spouseList = spouseService.findSpousesWithPagination(offset, pageSize);
+        return new APIResponse<>(spouseList.getSize(), spouseList);
     }
 
     @GetMapping("/spouses-details")

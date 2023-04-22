@@ -1,9 +1,12 @@
 package com.example.FirstSpring.Controller;
 
+import com.example.FirstSpring.Entity.APIResponse;
 import com.example.FirstSpring.Entity.Address;
 import com.example.FirstSpring.Entity.Employee;
+import com.example.FirstSpring.Entity.Spouse;
 import com.example.FirstSpring.Service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +27,12 @@ public class AddressController {
             idList.add(address.getId());
         }
         return idList;
+    }
+
+    @GetMapping("/addresses/page/{offset}/{pageSize}")
+    private APIResponse<Page<Address>> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+        Page<Address> addressList = addressService.findAddressesWithPagination(offset, pageSize);
+        return new APIResponse<>(addressList.getSize(), addressList);
     }
 
     @GetMapping("/addresses-details")

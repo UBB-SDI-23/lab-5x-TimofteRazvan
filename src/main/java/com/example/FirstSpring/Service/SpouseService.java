@@ -6,6 +6,8 @@ import com.example.FirstSpring.Entity.SpouseDTO;
 import com.example.FirstSpring.Repository.SpouseRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -76,5 +78,9 @@ public class SpouseService {
         return spouseRepository.findAll().stream()
                 .map(spouse -> new SpouseDTO(spouse.getId(), spouse.getName(), spouse.getPhone(), spouse.getAge(), spouse.isWorking()))
                 .sorted().collect(Collectors.toList());
+    }
+
+    public Page<Spouse> findSpousesWithPagination(int offset, int pageSize) {
+        return spouseRepository.findAll(PageRequest.of(offset,pageSize));
     }
 }

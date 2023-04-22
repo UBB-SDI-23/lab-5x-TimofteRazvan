@@ -4,6 +4,8 @@ import com.example.FirstSpring.Entity.*;
 import com.example.FirstSpring.Repository.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -85,5 +87,9 @@ public class EmployeeService {
                 .map(employee -> new EmployeeDTO(employee.getId(), employee.getName(), employee.getCity(), employee.getAge()))
                 .filter(employeeDTO -> employeeDTO.getAge() > 0)
                 .sorted().collect(Collectors.toList());
+    }
+
+    public Page<Employee> findEmployeesWithPagination(int offset, int pageSize) {
+        return employeeRepository.findAll(PageRequest.of(offset,pageSize));
     }
 }

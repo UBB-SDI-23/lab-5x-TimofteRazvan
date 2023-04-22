@@ -1,9 +1,12 @@
 package com.example.FirstSpring.Service;
 
 import com.example.FirstSpring.Entity.Address;
+import com.example.FirstSpring.Entity.Project;
 import com.example.FirstSpring.Repository.AddressRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,5 +52,9 @@ public class AddressService {
             throw new Exception("deleteAddress(): Incorrect ID!");
         }
         addressRepository.deleteById(id);
+    }
+
+    public Page<Address> findAddressesWithPagination(int offset, int pageSize) {
+        return addressRepository.findAll(PageRequest.of(offset,pageSize));
     }
 }

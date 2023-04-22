@@ -1,10 +1,9 @@
 package com.example.FirstSpring.Controller;
 
-import com.example.FirstSpring.Entity.Address;
-import com.example.FirstSpring.Entity.Employee;
-import com.example.FirstSpring.Entity.EmployeeDTO;
+import com.example.FirstSpring.Entity.*;
 import com.example.FirstSpring.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +25,12 @@ public class EmployeeController {
             idList.add(employee.getId());
         }
         return idList;
+    }
+
+    @GetMapping("/employees/page/{offset}/{pageSize}")
+    private APIResponse<Page<Employee>> getEmployeesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+        Page<Employee> employees = employeeService.findEmployeesWithPagination(offset, pageSize);
+        return new APIResponse<>(employees.getSize(), employees);
     }
 
     //@RequestMapping(value = "/employees", method = RequestMethod.GET)

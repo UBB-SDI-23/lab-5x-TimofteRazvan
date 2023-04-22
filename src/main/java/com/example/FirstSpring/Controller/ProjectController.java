@@ -1,8 +1,10 @@
 package com.example.FirstSpring.Controller;
 
+import com.example.FirstSpring.Entity.APIResponse;
 import com.example.FirstSpring.Entity.Project;
 import com.example.FirstSpring.Service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,12 @@ public class ProjectController {
             idList.add(project.getId());
         }
         return idList;
+    }
+
+    @GetMapping("/projects/page/{offset}/{pageSize}")
+    private APIResponse<Page<Project>> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+        Page<Project> projectList = projectService.findProjectsWithPagination(offset, pageSize);
+        return new APIResponse<>(projectList.getSize(), projectList);
     }
 
     @GetMapping("/projects-details")
