@@ -21,6 +21,7 @@ public class Project {
     private String clientName;
     private String language;
     private LocalDate deadline;
+    private String description;
 
     // JSONIGNORE required to avoid endless looping when doing GET with POSTMAN
     /*
@@ -43,11 +44,12 @@ public class Project {
         this.clientName = clientName;
     }
 
-    public Project(String name, String clientName, String language, LocalDate deadline) {
+    public Project(String name, String clientName, String language, LocalDate deadline, String description) {
         this.name = name;
         this.clientName = clientName;
         this.language = language;
         this.deadline = deadline;
+        this.description = description;
     }
 
     public int getId() {
@@ -88,6 +90,14 @@ public class Project {
 
     public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /*

@@ -38,10 +38,9 @@ public class ProjectService {
         Project projectToUpdate = projectRepository.getOne(id);
         projectToUpdate.setClientName(project.getClientName());
         projectToUpdate.setDeadline(project.getDeadline());
-        // projectToUpdate.setEmployees(project.getEmployees());
-        //projectToUpdate.setEmployees(project.getEmployees());
         projectToUpdate.setName(project.getName());
         projectToUpdate.setLanguage(project.getLanguage());
+        projectToUpdate.setDescription(project.getDescription());
         projectRepository.save(projectToUpdate);
     }
 

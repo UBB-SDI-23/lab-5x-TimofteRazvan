@@ -24,7 +24,7 @@ public class FakerScript {
 //        // PROJECT TABLE
 //        for (int i = 1; i <= 1000000; i++) {
 //            PreparedStatement preparedStatement = connection.prepareStatement(
-//                    "INSERT INTO project (client_name, deadline, language, name) VALUES (?, ?, ?, ?)"
+//                    "INSERT INTO project (client_name, deadline, language, name, description) VALUES (?, ?, ?, ?, ?)"
 //            );
 //            preparedStatement.setString(1, faker.name().fullName());
 //            java.util.Date birthday = faker.date().birthday();
@@ -32,6 +32,8 @@ public class FakerScript {
 //            preparedStatement.setDate(2, sqlDate);
 //            preparedStatement.setString(3, faker.programmingLanguage().name());
 //            preparedStatement.setString(4, faker.commerce().productName());
+//            String long_desc =faker.lorem().paragraphs(3).toString().substring(0,200);
+//            preparedStatement.setString(5, long_desc);
 //            preparedStatement.executeUpdate();
 //            preparedStatement.close();
 //        }
@@ -74,11 +76,10 @@ public class FakerScript {
 //            preparedStatement.setString(4, faker.address().buildingNumber());
 //            preparedStatement.setString(5, faker.address().state());
 //            preparedStatement.setString(6, faker.address().zipCode());
-//            preparedStatement.setInt(7, faker.number().numberBetween(1000000, 2000000));
+//            preparedStatement.setInt(7, faker.number().numberBetween(1, 1000000));
 //            preparedStatement.executeUpdate();
 //            preparedStatement.close();
 //        }
-
 
         // Close database connection
         connection.close();
