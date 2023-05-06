@@ -13,6 +13,7 @@ import java.util.List;
 
 @Controller
 @ResponseBody
+@CrossOrigin("http://localhost:3000")
 public class EmployeeProjectController {
     @Autowired
     EmployeeProjectService employeeProjectService;
@@ -23,9 +24,9 @@ public class EmployeeProjectController {
     }
 
     @GetMapping("/employees-projects/page/{offset}/{pageSize}")
-    private APIResponse<Page<EmployeeProject>> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+    private List<EmployeeProject> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
         Page<EmployeeProject> employeeProjects = employeeProjectService.findEmployeeProjectsWithPagination(offset, pageSize);
-        return new APIResponse<>(employeeProjects.getSize(), employeeProjects);
+        return employeeProjects.getContent();
     }
 
     @PostMapping("/employees-projects")

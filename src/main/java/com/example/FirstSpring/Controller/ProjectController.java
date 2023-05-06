@@ -13,6 +13,7 @@ import java.util.List;
 
 @Controller
 @ResponseBody
+@CrossOrigin("http://localhost:3000")
 public class ProjectController {
     @Autowired
     ProjectService projectService;
@@ -28,9 +29,9 @@ public class ProjectController {
     }
 
     @GetMapping("/projects/page/{offset}/{pageSize}")
-    private APIResponse<Page<Project>> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+    private List<Project> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
         Page<Project> projectList = projectService.findProjectsWithPagination(offset, pageSize);
-        return new APIResponse<>(projectList.getSize(), projectList);
+        return projectList.getContent();
     }
 
     @GetMapping("/projects-details")

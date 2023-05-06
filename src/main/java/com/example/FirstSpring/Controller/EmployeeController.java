@@ -28,10 +28,16 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/page/{offset}/{pageSize}")
-    private APIResponse<Page<Employee>> getEmployeesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+    private List<Employee> getEmployeesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
         Page<Employee> employees = employeeService.findEmployeesWithPagination(offset, pageSize);
-        return new APIResponse<>(employees.getSize(), employees);
+        return employees.getContent();
     }
+
+//    @GetMapping("/employees/page/{offset}/{pageSize}")
+//    private APIResponse<Page<Employee>> getEmployeesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+//        Page<Employee> employees = employeeService.findEmployeesWithPagination(offset, pageSize);
+//        return new APIResponse<>(employees.getSize(), employees);
+//    }
 
     //@RequestMapping(value = "/employees", method = RequestMethod.GET)
     @GetMapping("/employees-details")

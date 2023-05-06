@@ -15,6 +15,7 @@ import java.util.List;
 
 @Controller
 @ResponseBody
+@CrossOrigin("http://localhost:3000")
 public class AddressController {
     @Autowired
     AddressService addressService;
@@ -30,9 +31,9 @@ public class AddressController {
     }
 
     @GetMapping("/addresses/page/{offset}/{pageSize}")
-    private APIResponse<Page<Address>> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+    private List<Address> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
         Page<Address> addressList = addressService.findAddressesWithPagination(offset, pageSize);
-        return new APIResponse<>(addressList.getSize(), addressList);
+        return addressList.getContent();
     }
 
     @GetMapping("/addresses-details")
