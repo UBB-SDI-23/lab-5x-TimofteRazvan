@@ -1,8 +1,6 @@
 package com.example.FirstSpring.Controller;
 
-import com.example.FirstSpring.Entity.APIResponse;
-import com.example.FirstSpring.Entity.EmployeeProject;
-import com.example.FirstSpring.Entity.Project;
+import com.example.FirstSpring.Entity.*;
 import com.example.FirstSpring.Service.EmployeeProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,13 +22,34 @@ public class EmployeeProjectController {
     }
 
     @GetMapping("/employees-projects/page/{offset}/{pageSize}")
-    private List<EmployeeProject> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
-        Page<EmployeeProject> employeeProjects = employeeProjectService.findEmployeeProjectsWithPagination(offset, pageSize);
+    private List<EmployeeProjectDTO> getEmployeeProjectsWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+        Page<EmployeeProjectDTO> employeeProjects = employeeProjectService.findEmployeeProjectsWithPagination(offset, pageSize);
         return employeeProjects.getContent();
     }
 
+    @GetMapping("/employees-projects/{id}")
+    public EmployeeProjectDTO findEmployeeProjectDTO(@PathVariable int id) {
+        try {
+            return employeeProjectService.findEmployeeProjectDTO(id);
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     @PostMapping("/employees-projects")
-    public void createEmployeeProject(@RequestBody EmployeeProject employeeProject) {
-        employeeProjectService.createEmployeeProject(employeeProject);
+    public void createEmployeeProject(@RequestBody EmployeeProjectDTO employeeProjectDTO) {
+        employeeProjectService.saveEmployeeProject(employeeProjectDTO);
+    }
+
+    @DeleteMapping("/employees-projects/{id}")
+    public void deleteEmployeeProject(@PathVariable int id) {
+        try {
+            employeeProjectService.deleteEmployeeProject(id);
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

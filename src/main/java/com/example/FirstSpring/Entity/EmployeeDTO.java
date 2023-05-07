@@ -5,6 +5,8 @@ public class EmployeeDTO implements Comparable<EmployeeDTO> {
     private String name;
     private String city;
     private int age;
+    private int spouse;
+    private int addresses;
 
     public EmployeeDTO() {
     }
@@ -14,6 +16,30 @@ public class EmployeeDTO implements Comparable<EmployeeDTO> {
         this.name = name;
         this.city = city;
         this.age = age;
+    }
+
+    public EmployeeDTO(String name, String city, int age, int spouse, int addresses) {
+        this.name = name;
+        this.city = city;
+        this.age = age;
+        this.spouse = spouse;
+        this.addresses = addresses;
+    }
+
+    public int getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(int addresses) {
+        this.addresses = addresses;
+    }
+
+    public int getSpouse() {
+        return spouse;
+    }
+
+    public void setSpouse(int spouse) {
+        this.spouse = spouse;
     }
 
     public int getId() {

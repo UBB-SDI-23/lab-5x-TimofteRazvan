@@ -1,9 +1,6 @@
 package com.example.FirstSpring.Controller;
 
-import com.example.FirstSpring.Entity.APIResponse;
-import com.example.FirstSpring.Entity.Address;
-import com.example.FirstSpring.Entity.Employee;
-import com.example.FirstSpring.Entity.Spouse;
+import com.example.FirstSpring.Entity.*;
 import com.example.FirstSpring.Service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,8 +28,8 @@ public class AddressController {
     }
 
     @GetMapping("/addresses/page/{offset}/{pageSize}")
-    private List<Address> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
-        Page<Address> addressList = addressService.findAddressesWithPagination(offset, pageSize);
+    private List<AddressDTO> getSpousesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+        Page<AddressDTO> addressList = addressService.findAddressesWithPagination(offset, pageSize);
         return addressList.getContent();
     }
 
@@ -42,9 +39,9 @@ public class AddressController {
     }
 
     @GetMapping("/addresses/{id}")
-    public Address findAddress(@PathVariable int id) {
+    public AddressDTO findAddressDTO(@PathVariable int id) {
         try {
-            return addressService.getAddress(id);
+            return addressService.findAddressDTO(id);
         }
         catch(Exception e) {
             System.out.println(e.getMessage());
@@ -53,8 +50,8 @@ public class AddressController {
     }
 
     @PostMapping("/addresses")
-    public void createAddress(@RequestBody Address address) {
-        addressService.createAddress(address);
+    public void createAddress(@RequestBody AddressDTO addressDTO) {
+        addressService.saveAddress(addressDTO);
     }
 
     @PutMapping("/addresses/{id}")

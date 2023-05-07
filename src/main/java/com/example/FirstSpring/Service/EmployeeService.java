@@ -1,7 +1,9 @@
 package com.example.FirstSpring.Service;
 
 import com.example.FirstSpring.Entity.*;
+import com.example.FirstSpring.Repository.AddressRepository;
 import com.example.FirstSpring.Repository.EmployeeRepository;
+import com.example.FirstSpring.Repository.SpouseRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,10 +18,51 @@ import java.util.stream.Collectors;
 public class EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
+    @Autowired
+    SpouseRepository spouseRepository;
+    @Autowired
+    AddressRepository addressRepository;
 
     public List<Employee> getAllEmployees () {
         return employeeRepository.findAll();
     }
+
+    public List<EmployeeDTO> findAllEmployeesAndMap() {
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream()
+                .map(this::mapEmployeeToEmployeeDTO)
+                .collect(Collectors.toList());
+    }
+
+    public EmployeeDTO findEmployeeDTO(int id) throws Exception {
+        if(!employeeRepository.existsById(id)) {
+            throw new Exception("findEmployeeProjectDTO(): Incorrect ID!");
+        }
+        return mapEmployeeToEmployeeDTO(employeeRepository.findById(id).get());
+    }
+
+    private EmployeeDTO mapEmployeeToEmployeeDTO(Employee employee) {
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setId(employee.getId());
+        employeeDTO.setName(employee.getName());
+        employeeDTO.setCity(employee.getCity());
+        employeeDTO.setAge(employee.getAge());
+        employeeDTO.setSpouse(employee.getSpouse().getId());
+        employeeDTO.setAddresses(employee.getAddresses().size());
+        return employeeDTO;
+    }
+
+    public void saveEmployee(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        employee.setName(employeeDTO.getName());
+        employee.setCity(employeeDTO.getCity());
+        employee.setAge(employeeDTO.getAge());
+        if(spouseRepository.existsById(employeeDTO.getSpouse())) {
+            employee.setSpouse(spouseRepository.getById(employeeDTO.getSpouse()));
+        }
+        employeeRepository.save(employee);
+    }
+
 
     public Employee getEmployee(int id) throws Exception {
         if (!employeeRepository.existsById(id)) {
@@ -74,12 +117,15 @@ public class EmployeeService {
     }
 
     public List<Employee> findEmployeeByAgeImpl(int age) {
-        List<Employee> employeeList = new ArrayList<>();
-        employeeList = employeeRepository.findAll().stream()
+        return employeeRepository.findAll().stream()
                 .filter(s -> s.getAge() > age)
                 .sorted(Comparator.comparingInt(Employee::getAge))
                 .collect(Collectors.toList());
-        return employeeList;
+    }
+
+    public Page<EmployeeDTO> findEmployeesByAgePaginated(int age, int offset, int pageSize) {
+        Page<Employee> employees = employeeRepository.findByAgeGreaterThan(age, PageRequest.of(offset, pageSize));
+        return employees.map(this::mapEmployeeToEmployeeDTO);
     }
 
     public List<EmployeeDTO> getComparison() {
@@ -88,8 +134,19 @@ public class EmployeeService {
                 .filter(employeeDTO -> employeeDTO.getAge() > 0)
                 .sorted().collect(Collectors.toList());
     }
-
-    public Page<Employee> findEmployeesWithPagination(int offset, int pageSize) {
-        return employeeRepository.findAll(PageRequest.of(offset,pageSize));
+    public Page<EmployeeDTO> findEmployeesWithPagination(int offset, int pageSize) {
+        Page<Employee> employees = employeeRepository.findAll(PageRequest.of(offset, pageSize));
+        return employees.map(this::mapEmployeeToEmployeeDTO);
     }
+
+    /*
+    public Page<EmployeeDTO> findEmployeesWithPagination(int offset, int pageSize) {
+        return employeeRepository.findAll(PageRequest.of(offset,pageSize));
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream()
+                .map(this::mapEmployeeToEmployeeDTO)
+                .collect(Collectors.toList());
+    }
+
+     */
 }

@@ -68,7 +68,7 @@ public class FakerScript {
 //        // ADDRESS TABLE
 //        for (int i = 1; i <= 1000000; i++) {
 //            PreparedStatement preparedStatement = connection.prepareStatement(
-//                    "INSERT INTO address (city, country, line1, line2, state, zip_code, employee_employee_id) VALUES (?, ?, ?, ?, ?, ?, ?)"
+//                    "INSERT INTO address (city, country, line1, line2, state, zip_code, employee_id) VALUES (?, ?, ?, ?, ?, ?, ?)"
 //            );
 //            preparedStatement.setString(1, faker.address().city());
 //            preparedStatement.setString(2, faker.address().country());

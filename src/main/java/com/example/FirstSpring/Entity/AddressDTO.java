@@ -1,45 +1,25 @@
 package com.example.FirstSpring.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-
-import java.util.Objects;
-
-@Entity
-@Table(name = "address")
-public class Address {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AddressDTO {
     private int id;
-    private String line1;
-    private String line2;
-    private String zipCode;
-    private String city;
-    private String state;
-    private String country;
+    private String line1, line2, zipCode, city, state, country;
+    private int employee;
 
-    // JSONIGNORE required to avoid endless looping when doing GET with POSTMAN
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
-
-    public Address() {
-
+    public AddressDTO() {
     }
 
-    public Address(String line1, String line2, String zipCode, String city,
-                   String state, String country) {
+    public AddressDTO(int id, String line1, String line2, String zipCode, String city, String state, String country, int employee) {
+        this.id = id;
         this.line1 = line1;
         this.line2 = line2;
         this.zipCode = zipCode;
         this.city = city;
         this.state = state;
         this.country = country;
+        this.employee = employee;
     }
 
-    public Address(String line1, String line2, String zipCode, String city,
-                   String state, String country, Employee employee) {
+    public AddressDTO(String line1, String line2, String zipCode, String city, String state, String country, int employee) {
         this.line1 = line1;
         this.line2 = line2;
         this.zipCode = zipCode;
@@ -105,24 +85,11 @@ public class Address {
         this.country = country;
     }
 
-    public Employee getEmployee() {
+    public int getEmployee() {
         return employee;
     }
 
-    public void setEmployee(Employee employee) {
+    public void setEmployee(int employee) {
         this.employee = employee;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return id == address.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

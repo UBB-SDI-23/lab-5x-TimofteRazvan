@@ -18,7 +18,7 @@ public class Employee {
     @JoinColumn(name="fk_spouse")
     private Spouse spouse;
 
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "employee")
     private List<Address> addresses = new ArrayList<>();
     private int age=0;
 

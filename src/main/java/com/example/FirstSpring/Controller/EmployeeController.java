@@ -28,16 +28,10 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/page/{offset}/{pageSize}")
-    private List<Employee> getEmployeesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
-        Page<Employee> employees = employeeService.findEmployeesWithPagination(offset, pageSize);
+    private List<EmployeeDTO> getEmployeesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
+        Page<EmployeeDTO> employees = employeeService.findEmployeesWithPagination(offset, pageSize);
         return employees.getContent();
     }
-
-//    @GetMapping("/employees/page/{offset}/{pageSize}")
-//    private APIResponse<Page<Employee>> getEmployeesWithPagination(@PathVariable int offset, @PathVariable int pageSize) {
-//        Page<Employee> employees = employeeService.findEmployeesWithPagination(offset, pageSize);
-//        return new APIResponse<>(employees.getSize(), employees);
-//    }
 
     //@RequestMapping(value = "/employees", method = RequestMethod.GET)
     @GetMapping("/employees-details")
@@ -47,9 +41,9 @@ public class EmployeeController {
 
     //@RequestMapping(value = "/employees/{id}", method = RequestMethod.GET)
     @GetMapping("/employees/{id}")
-    public Employee findEmployee(@PathVariable int id) {
+    public EmployeeDTO findEmployeeDTO(@PathVariable int id) {
         try {
-            return employeeService.getEmployee(id);
+            return employeeService.findEmployeeDTO(id);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -70,8 +64,8 @@ public class EmployeeController {
 
     //@RequestMapping(value = "/employees", method = RequestMethod.POST)
     @PostMapping("/employees")
-    public void createEmployee(@RequestBody Employee employee) {
-        employeeService.createEmployee(employee);
+    public void createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        employeeService.saveEmployee(employeeDTO);
     }
 
     //@RequestMapping(value = "/employees/{id}", method = RequestMethod.PUT)
@@ -96,9 +90,10 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/employees/filter/age/{age}")
-    public List<Employee> findEmployeeByAge(@PathVariable int age) {
-        return employeeService.findEmployeeByAgeImpl(age);
+    @GetMapping("/employees/filter/age/{age}/{offset}/{pageSize}")
+    public List<EmployeeDTO> findEmployeeByAge(@PathVariable int age, @PathVariable int offset, @PathVariable int pageSize) {
+        Page<EmployeeDTO> employees = employeeService.findEmployeesByAgePaginated(age, offset, pageSize);
+        return employees.getContent();
     }
 
     @GetMapping("/employees/compare/age")
