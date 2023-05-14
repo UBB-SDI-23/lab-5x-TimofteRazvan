@@ -54,4 +54,8 @@ public class ProjectService {
     public Page<Project> findProjectsWithPagination(int offset, int pageSize) {
         return projectRepository.findAll(PageRequest.of(offset,pageSize));
     }
+
+    public Long getProjectMaxPage(){
+        return projectRepository.findNrProjects();
+    }
 }

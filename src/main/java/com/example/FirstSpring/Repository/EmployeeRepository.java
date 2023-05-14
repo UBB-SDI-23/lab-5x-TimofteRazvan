@@ -4,6 +4,7 @@ import com.example.FirstSpring.Entity.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +16,10 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findByAgeGreaterThan(int age);
     Page<Employee> findByAgeGreaterThan(int age, Pageable pageable);
+
+    @Query(value="SELECT COUNT(*) from Employee")
+    Long findNrEmployees();
+
+    @Query(value="SELECT COUNT(*) FROM Employee e WHERE e.age>?1")
+    Integer findNrEmployeesOlderThan(int age);
 }

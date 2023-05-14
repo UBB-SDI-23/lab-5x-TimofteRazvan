@@ -3,10 +3,14 @@ package com.example.FirstSpring.Controller;
 import com.example.FirstSpring.Entity.*;
 import com.example.FirstSpring.Entity.Spouse;
 import com.example.FirstSpring.Service.SpouseService;
+import com.example.FirstSpring.Validator.SpouseValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebInputException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.List;
 public class SpouseController {
     @Autowired
     SpouseService spouseService;
+    private final SpouseValidator spouseValidator = new SpouseValidator();
 
     @GetMapping("/spouses")
     public List<Integer> findAllSpouses() {
@@ -51,8 +56,15 @@ public class SpouseController {
     }
 
     @PostMapping("/spouses")
-    public void createSpouse(@RequestBody Spouse spouse) {
-        spouseService.createSpouse(spouse);
+    public Object createSpouse(@RequestBody Spouse spouse) {
+        Errors errors = new BeanPropertyBindingResult(spouse,"spouse");
+        try {
+            spouseValidator.validate(spouse, errors);
+            return spouseService.createSpouse(spouse);
+        }
+        catch (ServerWebInputException e) {
+            return e.getReason();
+        }
     }
 
     @PutMapping("/spouses/{id}")
@@ -83,5 +95,10 @@ public class SpouseController {
     @GetMapping("/spouses/compare/age")
     public List<SpouseDTO> getComparison() {
         return spouseService.getComparison();
+    }
+
+    @GetMapping("/spouses/maxPage")
+    public Long getMaxPage(){
+        return spouseService.getSpouseMaxPage();
     }
 }

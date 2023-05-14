@@ -74,4 +74,9 @@ public class ProjectController {
             System.out.println(e.getMessage());
         }
     }
+
+    @GetMapping("/projects/maxPage")
+    public Long getMaxPage(){
+        return projectService.getProjectMaxPage();
+    }
 }

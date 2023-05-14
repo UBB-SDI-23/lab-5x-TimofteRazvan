@@ -32,8 +32,8 @@ public class SpouseService {
         return spouseRepository.findById(id).get();
     }
 
-    public void createSpouse(Spouse spouse) {
-        spouseRepository.save(spouse);
+    public Spouse createSpouse(Spouse spouse) {
+        return spouseRepository.save(spouse);
     }
 
     public void updateSpouse(int id, Spouse spouse) throws Exception {
@@ -82,5 +82,9 @@ public class SpouseService {
 
     public Page<Spouse> findSpousesWithPagination(int offset, int pageSize) {
         return spouseRepository.findAll(PageRequest.of(offset,pageSize));
+    }
+
+    public Long getSpouseMaxPage(){
+        return spouseRepository.findNrSpouses();
     }
 }

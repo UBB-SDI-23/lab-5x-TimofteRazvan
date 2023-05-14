@@ -73,4 +73,9 @@ public class AddressController {
             System.out.println(e.getMessage());
         }
     }
+
+    @GetMapping("/addresses/maxPage")
+    public Long getMaxPage(){
+        return addressService.getAddressMaxPage();
+    }
 }

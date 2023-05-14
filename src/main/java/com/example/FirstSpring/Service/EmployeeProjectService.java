@@ -72,4 +72,8 @@ public class EmployeeProjectService {
         }
         employeeProjectRepository.deleteById(id);
     }
+
+    public Long getEmployeeProjectMaxPage(){
+        return employeeProjectRepository.findNrEmployeeProjects();
+    }
 }

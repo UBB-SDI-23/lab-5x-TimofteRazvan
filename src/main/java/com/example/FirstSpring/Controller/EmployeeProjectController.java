@@ -52,4 +52,9 @@ public class EmployeeProjectController {
             System.out.println(e.getMessage());
         }
     }
+
+    @GetMapping("/employees-projects/maxPage")
+    public Long getMaxPage(){
+        return employeeProjectService.getEmployeeProjectMaxPage();
+    }
 }

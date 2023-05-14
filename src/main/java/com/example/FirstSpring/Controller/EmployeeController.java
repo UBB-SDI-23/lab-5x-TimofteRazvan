@@ -100,4 +100,14 @@ public class EmployeeController {
     public List<EmployeeDTO> getComparison() {
         return employeeService.getComparison();
     }
+
+    @GetMapping("/employees/maxPage")
+    public Long getMaxPage(){
+        return employeeService.getEmployeeMaxPage();
+    }
+
+    @GetMapping("/employees/maxPage/age/{age}")
+    public Integer getMaxOlderThan(@PathVariable int age) {
+        return employeeService.getEmployeesMaxOlderThan(age);
+    }
 }

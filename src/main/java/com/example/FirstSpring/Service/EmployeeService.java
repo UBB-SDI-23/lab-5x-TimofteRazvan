@@ -139,6 +139,14 @@ public class EmployeeService {
         return employees.map(this::mapEmployeeToEmployeeDTO);
     }
 
+    public Long getEmployeeMaxPage(){
+        return employeeRepository.findNrEmployees();
+    }
+
+    public Integer getEmployeesMaxOlderThan(int age) {
+        return employeeRepository.findNrEmployeesOlderThan(age);
+    }
+
     /*
     public Page<EmployeeDTO> findEmployeesWithPagination(int offset, int pageSize) {
         return employeeRepository.findAll(PageRequest.of(offset,pageSize));

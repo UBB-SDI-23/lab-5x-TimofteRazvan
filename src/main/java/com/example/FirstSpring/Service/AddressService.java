@@ -104,4 +104,8 @@ public class AddressService {
         Page<Address> addresses = addressRepository.findAll(PageRequest.of(offset,pageSize));
         return addresses.map(this::mapAddressToAddressDTO);
     }
+
+    public Long getAddressMaxPage(){
+        return addressRepository.findNrAddresses();
+    }
 }
